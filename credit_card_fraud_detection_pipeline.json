@@ -1,0 +1,2359 @@
+{
+  "pipelineSpec": {
+    "components": {
+      "comp-condition-deploy-decision-2": {
+        "dag": {
+          "tasks": {
+            "endpoint-create": {
+              "cachingOptions": {
+                "enableCache": true
+              },
+              "componentRef": {
+                "name": "comp-endpoint-create"
+              },
+              "inputs": {
+                "parameters": {
+                  "description": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  },
+                  "display_name": {
+                    "componentInputParameter": "pipelineparam--endpoint_display_name"
+                  },
+                  "encryption_spec_key_name": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  },
+                  "labels": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "{}"
+                      }
+                    }
+                  },
+                  "location": {
+                    "componentInputParameter": "pipelineparam--gcp_region"
+                  },
+                  "network": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  },
+                  "project": {
+                    "componentInputParameter": "pipelineparam--project"
+                  }
+                }
+              },
+              "taskInfo": {
+                "name": "endpoint-create"
+              }
+            },
+            "model-deploy": {
+              "cachingOptions": {
+                "enableCache": true
+              },
+              "componentRef": {
+                "name": "comp-model-deploy"
+              },
+              "dependentTasks": [
+                "endpoint-create"
+              ],
+              "inputs": {
+                "artifacts": {
+                  "endpoint": {
+                    "taskOutputArtifact": {
+                      "outputArtifactKey": "endpoint",
+                      "producerTask": "endpoint-create"
+                    }
+                  },
+                  "model": {
+                    "componentInputArtifact": "pipelineparam--customcontainertrainingjob-run-model"
+                  }
+                },
+                "parameters": {
+                  "automatic_resources_max_replica_count": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "intValue": "0"
+                      }
+                    }
+                  },
+                  "automatic_resources_min_replica_count": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "intValue": "0"
+                      }
+                    }
+                  },
+                  "dedicated_resources_accelerator_count": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "intValue": "0"
+                      }
+                    }
+                  },
+                  "dedicated_resources_accelerator_type": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  },
+                  "dedicated_resources_machine_type": {
+                    "componentInputParameter": "pipelineparam--dedicated_resources_machine_type"
+                  },
+                  "dedicated_resources_max_replica_count": {
+                    "componentInputParameter": "pipelineparam--dedicated_resources_max_replica_count"
+                  },
+                  "dedicated_resources_min_replica_count": {
+                    "componentInputParameter": "pipelineparam--dedicated_resources_min_replica_count"
+                  },
+                  "deployed_model_display_name": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  },
+                  "disable_container_logging": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "intValue": "0"
+                      }
+                    }
+                  },
+                  "enable_access_logging": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "intValue": "0"
+                      }
+                    }
+                  },
+                  "explanation_metadata": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "{}"
+                      }
+                    }
+                  },
+                  "explanation_parameters": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "{}"
+                      }
+                    }
+                  },
+                  "service_account": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  },
+                  "traffic_split": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "{}"
+                      }
+                    }
+                  }
+                }
+              },
+              "taskInfo": {
+                "name": "model-deploy"
+              }
+            }
+          }
+        },
+        "inputDefinitions": {
+          "artifacts": {
+            "pipelineparam--customcontainertrainingjob-run-model": {
+              "artifactType": {
+                "schemaTitle": "google.VertexModel",
+                "schemaVersion": "0.0.1"
+              }
+            }
+          },
+          "parameters": {
+            "pipelineparam--dedicated_resources_machine_type": {
+              "type": "STRING"
+            },
+            "pipelineparam--dedicated_resources_max_replica_count": {
+              "type": "INT"
+            },
+            "pipelineparam--dedicated_resources_min_replica_count": {
+              "type": "INT"
+            },
+            "pipelineparam--endpoint_display_name": {
+              "type": "STRING"
+            },
+            "pipelineparam--gcp_region": {
+              "type": "STRING"
+            },
+            "pipelineparam--make-deployment-decision-dep_decision": {
+              "type": "STRING"
+            },
+            "pipelineparam--project": {
+              "type": "STRING"
+            }
+          }
+        }
+      },
+      "comp-customcontainertrainingjob-run": {
+        "executorLabel": "exec-customcontainertrainingjob-run",
+        "inputDefinitions": {
+          "artifacts": {
+            "dataset": {
+              "artifactType": {
+                "schemaTitle": "google.VertexDataset",
+                "schemaVersion": "0.0.1"
+              }
+            }
+          },
+          "parameters": {
+            "bigquery_destination": {
+              "type": "STRING"
+            },
+            "container_uri": {
+              "type": "STRING"
+            },
+            "display_name": {
+              "type": "STRING"
+            },
+            "environment_variables": {
+              "type": "STRING"
+            },
+            "location": {
+              "type": "STRING"
+            },
+            "machine_type": {
+              "type": "STRING"
+            },
+            "model_display_name": {
+              "type": "STRING"
+            },
+            "model_serving_container_image_uri": {
+              "type": "STRING"
+            },
+            "project": {
+              "type": "STRING"
+            },
+            "staging_bucket": {
+              "type": "STRING"
+            }
+          }
+        },
+        "outputDefinitions": {
+          "artifacts": {
+            "model": {
+              "artifactType": {
+                "schemaTitle": "google.VertexModel",
+                "schemaVersion": "0.0.1"
+              }
+            }
+          }
+        }
+      },
+      "comp-endpoint-create": {
+        "executorLabel": "exec-endpoint-create",
+        "inputDefinitions": {
+          "parameters": {
+            "description": {
+              "type": "STRING"
+            },
+            "display_name": {
+              "type": "STRING"
+            },
+            "encryption_spec_key_name": {
+              "type": "STRING"
+            },
+            "labels": {
+              "type": "STRING"
+            },
+            "location": {
+              "type": "STRING"
+            },
+            "network": {
+              "type": "STRING"
+            },
+            "project": {
+              "type": "STRING"
+            }
+          }
+        },
+        "outputDefinitions": {
+          "artifacts": {
+            "endpoint": {
+              "artifactType": {
+                "schemaTitle": "google.VertexEndpoint",
+                "schemaVersion": "0.0.1"
+              }
+            }
+          },
+          "parameters": {
+            "gcp_resources": {
+              "type": "STRING"
+            }
+          }
+        }
+      },
+      "comp-exit-handler-1": {
+        "dag": {
+          "outputs": {
+            "artifacts": {
+              "feature-attribution-feature_attributions": {
+                "artifactSelectors": [
+                  {
+                    "outputArtifactKey": "feature_attributions",
+                    "producerSubtask": "feature-attribution"
+                  }
+                ]
+              }
+            }
+          },
+          "tasks": {
+            "condition-deploy-decision-2": {
+              "componentRef": {
+                "name": "comp-condition-deploy-decision-2"
+              },
+              "dependentTasks": [
+                "customcontainertrainingjob-run",
+                "make-deployment-decision"
+              ],
+              "inputs": {
+                "artifacts": {
+                  "pipelineparam--customcontainertrainingjob-run-model": {
+                    "taskOutputArtifact": {
+                      "outputArtifactKey": "model",
+                      "producerTask": "customcontainertrainingjob-run"
+                    }
+                  }
+                },
+                "parameters": {
+                  "pipelineparam--dedicated_resources_machine_type": {
+                    "componentInputParameter": "pipelineparam--dedicated_resources_machine_type"
+                  },
+                  "pipelineparam--dedicated_resources_max_replica_count": {
+                    "componentInputParameter": "pipelineparam--dedicated_resources_max_replica_count"
+                  },
+                  "pipelineparam--dedicated_resources_min_replica_count": {
+                    "componentInputParameter": "pipelineparam--dedicated_resources_min_replica_count"
+                  },
+                  "pipelineparam--endpoint_display_name": {
+                    "componentInputParameter": "pipelineparam--endpoint_display_name"
+                  },
+                  "pipelineparam--gcp_region": {
+                    "componentInputParameter": "pipelineparam--gcp_region"
+                  },
+                  "pipelineparam--make-deployment-decision-dep_decision": {
+                    "taskOutputParameter": {
+                      "outputParameterKey": "dep_decision",
+                      "producerTask": "make-deployment-decision"
+                    }
+                  },
+                  "pipelineparam--project": {
+                    "componentInputParameter": "pipelineparam--project"
+                  }
+                }
+              },
+              "taskInfo": {
+                "name": "condition-deploy-decision-2"
+              },
+              "triggerPolicy": {
+                "condition": "inputs.parameters['pipelineparam--make-deployment-decision-dep_decision'].string_value == 'true'"
+              }
+            },
+            "customcontainertrainingjob-run": {
+              "cachingOptions": {
+                "enableCache": true
+              },
+              "componentRef": {
+                "name": "comp-customcontainertrainingjob-run"
+              },
+              "dependentTasks": [
+                "tabular-dataset-create"
+              ],
+              "inputs": {
+                "artifacts": {
+                  "dataset": {
+                    "taskOutputArtifact": {
+                      "outputArtifactKey": "dataset",
+                      "producerTask": "tabular-dataset-create"
+                    }
+                  }
+                },
+                "parameters": {
+                  "bigquery_destination": {
+                    "componentInputParameter": "pipelineparam--bq_dest"
+                  },
+                  "container_uri": {
+                    "componentInputParameter": "pipelineparam--container_uri"
+                  },
+                  "display_name": {
+                    "componentInputParameter": "pipelineparam--training_display_name"
+                  },
+                  "environment_variables": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "{\"TEST_DATASET_FILE_PATH\": \"gs://demo-kfp-pipelines/pipeline-root/1668969721/batch-prediction/input/test_dataset.jsonl\", \"PYTHONUNBUFFERED\": \"1\", \"CLASS_COLUMN\": \"Class\", \"REMOVE_INPUT_COLUMNS\": \"[\\\"Time\\\", \\\"Row_Weight\\\"]\"}"
+                      }
+                    }
+                  },
+                  "location": {
+                    "componentInputParameter": "pipelineparam--gcp_region"
+                  },
+                  "machine_type": {
+                    "componentInputParameter": "pipelineparam--training_machine_type"
+                  },
+                  "model_display_name": {
+                    "componentInputParameter": "pipelineparam--model_display_name"
+                  },
+                  "model_serving_container_image_uri": {
+                    "componentInputParameter": "pipelineparam--model_serving_container_image_uri"
+                  },
+                  "project": {
+                    "componentInputParameter": "pipelineparam--project"
+                  },
+                  "staging_bucket": {
+                    "componentInputParameter": "pipelineparam--staging_bucket"
+                  }
+                }
+              },
+              "taskInfo": {
+                "name": "customcontainertrainingjob-run"
+              }
+            },
+            "feature-attribution": {
+              "cachingOptions": {
+                "enableCache": true
+              },
+              "componentRef": {
+                "name": "comp-feature-attribution"
+              },
+              "dependentTasks": [
+                "model-batch-predict"
+              ],
+              "inputs": {
+                "artifacts": {
+                  "predictions_gcs_source": {
+                    "taskOutputArtifact": {
+                      "outputArtifactKey": "gcs_output_directory",
+                      "producerTask": "model-batch-predict"
+                    }
+                  }
+                },
+                "parameters": {
+                  "dataflow_disk_size": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "intValue": "50"
+                      }
+                    }
+                  },
+                  "dataflow_machine_type": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "n1-standard-4"
+                      }
+                    }
+                  },
+                  "dataflow_max_workers_num": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "intValue": "5"
+                      }
+                    }
+                  },
+                  "dataflow_service_account": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  },
+                  "dataflow_subnetwork": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  },
+                  "dataflow_use_public_ips": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "true"
+                      }
+                    }
+                  },
+                  "dataflow_workers_num": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "intValue": "1"
+                      }
+                    }
+                  },
+                  "encryption_spec_key_name": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  },
+                  "location": {
+                    "componentInputParameter": "pipelineparam--gcp_region"
+                  },
+                  "predictions_format": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "jsonl"
+                      }
+                    }
+                  },
+                  "project": {
+                    "componentInputParameter": "pipelineparam--project"
+                  },
+                  "root_dir": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "gs://demo-kfp-pipelines/pipeline-root/1668969721/batch-prediction/output"
+                      }
+                    }
+                  }
+                }
+              },
+              "taskInfo": {
+                "name": "feature-attribution"
+              }
+            },
+            "make-deployment-decision": {
+              "cachingOptions": {
+                "enableCache": true
+              },
+              "componentRef": {
+                "name": "comp-make-deployment-decision"
+              },
+              "dependentTasks": [
+                "model-evaluation-classification"
+              ],
+              "inputs": {
+                "parameters": {
+                  "metric_name": {
+                    "componentInputParameter": "pipelineparam--deployment_metric"
+                  },
+                  "project": {
+                    "componentInputParameter": "pipelineparam--project"
+                  },
+                  "staging_bucket": {
+                    "componentInputParameter": "pipelineparam--staging_bucket"
+                  },
+                  "threshold": {
+                    "componentInputParameter": "pipelineparam--deployment_threshold"
+                  }
+                }
+              },
+              "taskInfo": {
+                "name": "make-deployment-decision"
+              }
+            },
+            "model-batch-predict": {
+              "cachingOptions": {
+                "enableCache": true
+              },
+              "componentRef": {
+                "name": "comp-model-batch-predict"
+              },
+              "dependentTasks": [
+                "customcontainertrainingjob-run",
+                "target-field-data-remover"
+              ],
+              "inputs": {
+                "artifacts": {
+                  "model": {
+                    "taskOutputArtifact": {
+                      "outputArtifactKey": "model",
+                      "producerTask": "customcontainertrainingjob-run"
+                    }
+                  }
+                },
+                "parameters": {
+                  "accelerator_count": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "intValue": "0"
+                      }
+                    }
+                  },
+                  "accelerator_type": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  },
+                  "bigquery_destination_output_uri": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  },
+                  "bigquery_source_input_uri": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  },
+                  "encryption_spec_key_name": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  },
+                  "explanation_metadata": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "{}"
+                      }
+                    }
+                  },
+                  "explanation_parameters": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "{}"
+                      }
+                    }
+                  },
+                  "gcs_destination_output_uri_prefix": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "gs://demo-kfp-pipelines/pipeline-root/1668969721/batch-prediction/output"
+                      }
+                    }
+                  },
+                  "gcs_source_uris": {
+                    "taskOutputParameter": {
+                      "outputParameterKey": "gcs_output_directory",
+                      "producerTask": "target-field-data-remover"
+                    }
+                  },
+                  "generate_explanation": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "intValue": "0"
+                      }
+                    }
+                  },
+                  "instances_format": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "jsonl"
+                      }
+                    }
+                  },
+                  "job_display_name": {
+                    "componentInputParameter": "pipelineparam--batch_predict_display_name"
+                  },
+                  "labels": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "{}"
+                      }
+                    }
+                  },
+                  "location": {
+                    "componentInputParameter": "pipelineparam--gcp_region"
+                  },
+                  "machine_type": {
+                    "componentInputParameter": "pipelineparam--batch_predict_machine_type"
+                  },
+                  "manual_batch_tuning_parameters_batch_size": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "intValue": "0"
+                      }
+                    }
+                  },
+                  "max_replica_count": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "intValue": "0"
+                      }
+                    }
+                  },
+                  "model_parameters": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "{}"
+                      }
+                    }
+                  },
+                  "predictions_format": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "jsonl"
+                      }
+                    }
+                  },
+                  "project": {
+                    "componentInputParameter": "pipelineparam--project"
+                  },
+                  "starting_replica_count": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "intValue": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              "taskInfo": {
+                "name": "model-batch-predict"
+              }
+            },
+            "model-evaluation-classification": {
+              "cachingOptions": {
+                "enableCache": true
+              },
+              "componentRef": {
+                "name": "comp-model-evaluation-classification"
+              },
+              "dependentTasks": [
+                "customcontainertrainingjob-run",
+                "model-batch-predict"
+              ],
+              "inputs": {
+                "artifacts": {
+                  "model": {
+                    "taskOutputArtifact": {
+                      "outputArtifactKey": "model",
+                      "producerTask": "customcontainertrainingjob-run"
+                    }
+                  },
+                  "predictions_gcs_source": {
+                    "taskOutputArtifact": {
+                      "outputArtifactKey": "gcs_output_directory",
+                      "producerTask": "model-batch-predict"
+                    }
+                  }
+                },
+                "parameters": {
+                  "class_labels": {
+                    "componentInputParameter": "pipelineparam--class_names"
+                  },
+                  "classification_type": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "multiclass"
+                      }
+                    }
+                  },
+                  "dataflow_disk_size": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "intValue": "50"
+                      }
+                    }
+                  },
+                  "dataflow_machine_type": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "n1-standard-4"
+                      }
+                    }
+                  },
+                  "dataflow_max_workers_num": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "intValue": "5"
+                      }
+                    }
+                  },
+                  "dataflow_service_account": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  },
+                  "dataflow_subnetwork": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  },
+                  "dataflow_use_public_ips": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "true"
+                      }
+                    }
+                  },
+                  "dataflow_workers_num": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "intValue": "1"
+                      }
+                    }
+                  },
+                  "encryption_spec_key_name": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  },
+                  "example_weight_column": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  },
+                  "ground_truth_bigquery_source": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  },
+                  "ground_truth_format": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "jsonl"
+                      }
+                    }
+                  },
+                  "ground_truth_gcs_source": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "[\"gs://demo-kfp-pipelines/pipeline-root/1668969721/batch-prediction/input/test_dataset.jsonl\"]"
+                      }
+                    }
+                  },
+                  "location": {
+                    "componentInputParameter": "pipelineparam--gcp_region"
+                  },
+                  "positive_classes": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "{}"
+                      }
+                    }
+                  },
+                  "prediction_id_column": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  },
+                  "prediction_label_column": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  },
+                  "prediction_score_column": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  },
+                  "predictions_format": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "jsonl"
+                      }
+                    }
+                  },
+                  "project": {
+                    "componentInputParameter": "pipelineparam--project"
+                  },
+                  "root_dir": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "gs://demo-kfp-pipelines/pipeline-root/1668969721/batch-prediction/output"
+                      }
+                    }
+                  },
+                  "target_field_name": {
+                    "componentInputParameter": "pipelineparam--target_column_name"
+                  }
+                }
+              },
+              "taskInfo": {
+                "name": "model-evaluation-classification"
+              }
+            },
+            "model-evaluation-import": {
+              "cachingOptions": {
+                "enableCache": true
+              },
+              "componentRef": {
+                "name": "comp-model-evaluation-import"
+              },
+              "dependentTasks": [
+                "customcontainertrainingjob-run",
+                "feature-attribution",
+                "model-evaluation-classification"
+              ],
+              "inputs": {
+                "artifacts": {
+                  "classification_metrics": {
+                    "taskOutputArtifact": {
+                      "outputArtifactKey": "evaluation_metrics",
+                      "producerTask": "model-evaluation-classification"
+                    }
+                  },
+                  "feature_attributions": {
+                    "taskOutputArtifact": {
+                      "outputArtifactKey": "feature_attributions",
+                      "producerTask": "feature-attribution"
+                    }
+                  },
+                  "model": {
+                    "taskOutputArtifact": {
+                      "outputArtifactKey": "model",
+                      "producerTask": "customcontainertrainingjob-run"
+                    }
+                  }
+                },
+                "parameters": {
+                  "dataset_path": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  },
+                  "dataset_paths": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "[]"
+                      }
+                    }
+                  },
+                  "dataset_type": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "jsonl"
+                      }
+                    }
+                  },
+                  "display_name": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  }
+                }
+              },
+              "taskInfo": {
+                "name": "model-evaluation-import"
+              }
+            },
+            "tabular-dataset-create": {
+              "cachingOptions": {
+                "enableCache": true
+              },
+              "componentRef": {
+                "name": "comp-tabular-dataset-create"
+              },
+              "inputs": {
+                "parameters": {
+                  "bq_source": {
+                    "componentInputParameter": "pipelineparam--bq_source"
+                  },
+                  "display_name": {
+                    "componentInputParameter": "pipelineparam--dataset_display_name"
+                  },
+                  "labels": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "{}"
+                      }
+                    }
+                  },
+                  "location": {
+                    "componentInputParameter": "pipelineparam--gcp_region"
+                  },
+                  "project": {
+                    "componentInputParameter": "pipelineparam--project"
+                  }
+                }
+              },
+              "taskInfo": {
+                "name": "tabular-dataset-create"
+              }
+            },
+            "target-field-data-remover": {
+              "cachingOptions": {
+                "enableCache": true
+              },
+              "componentRef": {
+                "name": "comp-target-field-data-remover"
+              },
+              "dependentTasks": [
+                "customcontainertrainingjob-run"
+              ],
+              "inputs": {
+                "parameters": {
+                  "bigquery_source_uri": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  },
+                  "dataflow_service_account": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  },
+                  "dataflow_subnetwork": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  },
+                  "dataflow_use_public_ips": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "true"
+                      }
+                    }
+                  },
+                  "encryption_spec_key_name": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": ""
+                      }
+                    }
+                  },
+                  "gcs_source_uris": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "[\"gs://demo-kfp-pipelines/pipeline-root/1668969721/batch-prediction/input/test_dataset.jsonl\"]"
+                      }
+                    }
+                  },
+                  "instances_format": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "jsonl"
+                      }
+                    }
+                  },
+                  "location": {
+                    "componentInputParameter": "pipelineparam--gcp_region"
+                  },
+                  "project": {
+                    "componentInputParameter": "pipelineparam--project"
+                  },
+                  "root_dir": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "gs://demo-kfp-pipelines/pipeline-root/1668969721/batch-prediction/splitter"
+                      }
+                    }
+                  },
+                  "target_field_name": {
+                    "componentInputParameter": "pipelineparam--target_column_name"
+                  }
+                }
+              },
+              "taskInfo": {
+                "name": "target-field-data-remover"
+              }
+            }
+          }
+        },
+        "inputDefinitions": {
+          "parameters": {
+            "pipelineparam--batch_predict_display_name": {
+              "type": "STRING"
+            },
+            "pipelineparam--batch_predict_machine_type": {
+              "type": "STRING"
+            },
+            "pipelineparam--bq_dest": {
+              "type": "STRING"
+            },
+            "pipelineparam--bq_source": {
+              "type": "STRING"
+            },
+            "pipelineparam--class_names": {
+              "type": "STRING"
+            },
+            "pipelineparam--container_uri": {
+              "type": "STRING"
+            },
+            "pipelineparam--dataset_display_name": {
+              "type": "STRING"
+            },
+            "pipelineparam--dedicated_resources_machine_type": {
+              "type": "STRING"
+            },
+            "pipelineparam--dedicated_resources_max_replica_count": {
+              "type": "INT"
+            },
+            "pipelineparam--dedicated_resources_min_replica_count": {
+              "type": "INT"
+            },
+            "pipelineparam--deployment_metric": {
+              "type": "STRING"
+            },
+            "pipelineparam--deployment_threshold": {
+              "type": "DOUBLE"
+            },
+            "pipelineparam--endpoint_display_name": {
+              "type": "STRING"
+            },
+            "pipelineparam--gcp_region": {
+              "type": "STRING"
+            },
+            "pipelineparam--model_display_name": {
+              "type": "STRING"
+            },
+            "pipelineparam--model_serving_container_image_uri": {
+              "type": "STRING"
+            },
+            "pipelineparam--project": {
+              "type": "STRING"
+            },
+            "pipelineparam--staging_bucket": {
+              "type": "STRING"
+            },
+            "pipelineparam--target_column_name": {
+              "type": "STRING"
+            },
+            "pipelineparam--training_display_name": {
+              "type": "STRING"
+            },
+            "pipelineparam--training_machine_type": {
+              "type": "STRING"
+            }
+          }
+        },
+        "outputDefinitions": {
+          "artifacts": {
+            "feature-attribution-feature_attributions": {
+              "artifactType": {
+                "schemaTitle": "system.Metrics",
+                "schemaVersion": "0.0.1"
+              }
+            }
+          }
+        }
+      },
+      "comp-feature-attribution": {
+        "executorLabel": "exec-feature-attribution",
+        "inputDefinitions": {
+          "artifacts": {
+            "predictions_gcs_source": {
+              "artifactType": {
+                "schemaTitle": "system.Artifact",
+                "schemaVersion": "0.0.1"
+              }
+            }
+          },
+          "parameters": {
+            "dataflow_disk_size": {
+              "type": "INT"
+            },
+            "dataflow_machine_type": {
+              "type": "STRING"
+            },
+            "dataflow_max_workers_num": {
+              "type": "INT"
+            },
+            "dataflow_service_account": {
+              "type": "STRING"
+            },
+            "dataflow_subnetwork": {
+              "type": "STRING"
+            },
+            "dataflow_use_public_ips": {
+              "type": "STRING"
+            },
+            "dataflow_workers_num": {
+              "type": "INT"
+            },
+            "encryption_spec_key_name": {
+              "type": "STRING"
+            },
+            "location": {
+              "type": "STRING"
+            },
+            "predictions_format": {
+              "type": "STRING"
+            },
+            "project": {
+              "type": "STRING"
+            },
+            "root_dir": {
+              "type": "STRING"
+            }
+          }
+        },
+        "outputDefinitions": {
+          "artifacts": {
+            "feature_attributions": {
+              "artifactType": {
+                "schemaTitle": "system.Metrics",
+                "schemaVersion": "0.0.1"
+              }
+            }
+          },
+          "parameters": {
+            "gcp_resources": {
+              "type": "STRING"
+            }
+          }
+        }
+      },
+      "comp-make-deployment-decision": {
+        "executorLabel": "exec-make-deployment-decision",
+        "inputDefinitions": {
+          "parameters": {
+            "metric_name": {
+              "type": "STRING"
+            },
+            "project": {
+              "type": "STRING"
+            },
+            "staging_bucket": {
+              "type": "STRING"
+            },
+            "threshold": {
+              "type": "DOUBLE"
+            }
+          }
+        },
+        "outputDefinitions": {
+          "parameters": {
+            "dep_decision": {
+              "type": "STRING"
+            }
+          }
+        }
+      },
+      "comp-model-batch-predict": {
+        "executorLabel": "exec-model-batch-predict",
+        "inputDefinitions": {
+          "artifacts": {
+            "model": {
+              "artifactType": {
+                "schemaTitle": "google.VertexModel",
+                "schemaVersion": "0.0.1"
+              }
+            }
+          },
+          "parameters": {
+            "accelerator_count": {
+              "type": "INT"
+            },
+            "accelerator_type": {
+              "type": "STRING"
+            },
+            "bigquery_destination_output_uri": {
+              "type": "STRING"
+            },
+            "bigquery_source_input_uri": {
+              "type": "STRING"
+            },
+            "encryption_spec_key_name": {
+              "type": "STRING"
+            },
+            "explanation_metadata": {
+              "type": "STRING"
+            },
+            "explanation_parameters": {
+              "type": "STRING"
+            },
+            "gcs_destination_output_uri_prefix": {
+              "type": "STRING"
+            },
+            "gcs_source_uris": {
+              "type": "STRING"
+            },
+            "generate_explanation": {
+              "type": "STRING"
+            },
+            "instances_format": {
+              "type": "STRING"
+            },
+            "job_display_name": {
+              "type": "STRING"
+            },
+            "labels": {
+              "type": "STRING"
+            },
+            "location": {
+              "type": "STRING"
+            },
+            "machine_type": {
+              "type": "STRING"
+            },
+            "manual_batch_tuning_parameters_batch_size": {
+              "type": "INT"
+            },
+            "max_replica_count": {
+              "type": "INT"
+            },
+            "model_parameters": {
+              "type": "STRING"
+            },
+            "predictions_format": {
+              "type": "STRING"
+            },
+            "project": {
+              "type": "STRING"
+            },
+            "starting_replica_count": {
+              "type": "INT"
+            }
+          }
+        },
+        "outputDefinitions": {
+          "artifacts": {
+            "batchpredictionjob": {
+              "artifactType": {
+                "schemaTitle": "google.VertexBatchPredictionJob",
+                "schemaVersion": "0.0.1"
+              }
+            },
+            "bigquery_output_table": {
+              "artifactType": {
+                "schemaTitle": "google.BQTable",
+                "schemaVersion": "0.0.1"
+              }
+            },
+            "gcs_output_directory": {
+              "artifactType": {
+                "schemaTitle": "system.Artifact",
+                "schemaVersion": "0.0.1"
+              }
+            }
+          },
+          "parameters": {
+            "gcp_resources": {
+              "type": "STRING"
+            }
+          }
+        }
+      },
+      "comp-model-deploy": {
+        "executorLabel": "exec-model-deploy",
+        "inputDefinitions": {
+          "artifacts": {
+            "endpoint": {
+              "artifactType": {
+                "schemaTitle": "google.VertexEndpoint",
+                "schemaVersion": "0.0.1"
+              }
+            },
+            "model": {
+              "artifactType": {
+                "schemaTitle": "google.VertexModel",
+                "schemaVersion": "0.0.1"
+              }
+            }
+          },
+          "parameters": {
+            "automatic_resources_max_replica_count": {
+              "type": "INT"
+            },
+            "automatic_resources_min_replica_count": {
+              "type": "INT"
+            },
+            "dedicated_resources_accelerator_count": {
+              "type": "INT"
+            },
+            "dedicated_resources_accelerator_type": {
+              "type": "STRING"
+            },
+            "dedicated_resources_machine_type": {
+              "type": "STRING"
+            },
+            "dedicated_resources_max_replica_count": {
+              "type": "INT"
+            },
+            "dedicated_resources_min_replica_count": {
+              "type": "INT"
+            },
+            "deployed_model_display_name": {
+              "type": "STRING"
+            },
+            "disable_container_logging": {
+              "type": "STRING"
+            },
+            "enable_access_logging": {
+              "type": "STRING"
+            },
+            "explanation_metadata": {
+              "type": "STRING"
+            },
+            "explanation_parameters": {
+              "type": "STRING"
+            },
+            "service_account": {
+              "type": "STRING"
+            },
+            "traffic_split": {
+              "type": "STRING"
+            }
+          }
+        },
+        "outputDefinitions": {
+          "parameters": {
+            "gcp_resources": {
+              "type": "STRING"
+            }
+          }
+        }
+      },
+      "comp-model-evaluation-classification": {
+        "executorLabel": "exec-model-evaluation-classification",
+        "inputDefinitions": {
+          "artifacts": {
+            "model": {
+              "artifactType": {
+                "schemaTitle": "google.VertexModel",
+                "schemaVersion": "0.0.1"
+              }
+            },
+            "predictions_gcs_source": {
+              "artifactType": {
+                "schemaTitle": "system.Artifact",
+                "schemaVersion": "0.0.1"
+              }
+            }
+          },
+          "parameters": {
+            "class_labels": {
+              "type": "STRING"
+            },
+            "classification_type": {
+              "type": "STRING"
+            },
+            "dataflow_disk_size": {
+              "type": "INT"
+            },
+            "dataflow_machine_type": {
+              "type": "STRING"
+            },
+            "dataflow_max_workers_num": {
+              "type": "INT"
+            },
+            "dataflow_service_account": {
+              "type": "STRING"
+            },
+            "dataflow_subnetwork": {
+              "type": "STRING"
+            },
+            "dataflow_use_public_ips": {
+              "type": "STRING"
+            },
+            "dataflow_workers_num": {
+              "type": "INT"
+            },
+            "encryption_spec_key_name": {
+              "type": "STRING"
+            },
+            "example_weight_column": {
+              "type": "STRING"
+            },
+            "ground_truth_bigquery_source": {
+              "type": "STRING"
+            },
+            "ground_truth_format": {
+              "type": "STRING"
+            },
+            "ground_truth_gcs_source": {
+              "type": "STRING"
+            },
+            "location": {
+              "type": "STRING"
+            },
+            "positive_classes": {
+              "type": "STRING"
+            },
+            "prediction_id_column": {
+              "type": "STRING"
+            },
+            "prediction_label_column": {
+              "type": "STRING"
+            },
+            "prediction_score_column": {
+              "type": "STRING"
+            },
+            "predictions_format": {
+              "type": "STRING"
+            },
+            "project": {
+              "type": "STRING"
+            },
+            "root_dir": {
+              "type": "STRING"
+            },
+            "target_field_name": {
+              "type": "STRING"
+            }
+          }
+        },
+        "outputDefinitions": {
+          "artifacts": {
+            "evaluation_metrics": {
+              "artifactType": {
+                "schemaTitle": "google.ClassificationMetrics",
+                "schemaVersion": "0.0.1"
+              }
+            }
+          },
+          "parameters": {
+            "gcp_resources": {
+              "type": "STRING"
+            }
+          }
+        }
+      },
+      "comp-model-evaluation-import": {
+        "executorLabel": "exec-model-evaluation-import",
+        "inputDefinitions": {
+          "artifacts": {
+            "classification_metrics": {
+              "artifactType": {
+                "schemaTitle": "google.ClassificationMetrics",
+                "schemaVersion": "0.0.1"
+              }
+            },
+            "feature_attributions": {
+              "artifactType": {
+                "schemaTitle": "system.Metrics",
+                "schemaVersion": "0.0.1"
+              }
+            },
+            "model": {
+              "artifactType": {
+                "schemaTitle": "google.VertexModel",
+                "schemaVersion": "0.0.1"
+              }
+            }
+          },
+          "parameters": {
+            "dataset_path": {
+              "type": "STRING"
+            },
+            "dataset_paths": {
+              "type": "STRING"
+            },
+            "dataset_type": {
+              "type": "STRING"
+            },
+            "display_name": {
+              "type": "STRING"
+            }
+          }
+        },
+        "outputDefinitions": {
+          "parameters": {
+            "gcp_resources": {
+              "type": "STRING"
+            }
+          }
+        }
+      },
+      "comp-tabular-dataset-create": {
+        "executorLabel": "exec-tabular-dataset-create",
+        "inputDefinitions": {
+          "parameters": {
+            "bq_source": {
+              "type": "STRING"
+            },
+            "display_name": {
+              "type": "STRING"
+            },
+            "labels": {
+              "type": "STRING"
+            },
+            "location": {
+              "type": "STRING"
+            },
+            "project": {
+              "type": "STRING"
+            }
+          }
+        },
+        "outputDefinitions": {
+          "artifacts": {
+            "dataset": {
+              "artifactType": {
+                "schemaTitle": "google.VertexDataset",
+                "schemaVersion": "0.0.1"
+              }
+            }
+          }
+        }
+      },
+      "comp-target-field-data-remover": {
+        "executorLabel": "exec-target-field-data-remover",
+        "inputDefinitions": {
+          "parameters": {
+            "bigquery_source_uri": {
+              "type": "STRING"
+            },
+            "dataflow_service_account": {
+              "type": "STRING"
+            },
+            "dataflow_subnetwork": {
+              "type": "STRING"
+            },
+            "dataflow_use_public_ips": {
+              "type": "STRING"
+            },
+            "encryption_spec_key_name": {
+              "type": "STRING"
+            },
+            "gcs_source_uris": {
+              "type": "STRING"
+            },
+            "instances_format": {
+              "type": "STRING"
+            },
+            "location": {
+              "type": "STRING"
+            },
+            "project": {
+              "type": "STRING"
+            },
+            "root_dir": {
+              "type": "STRING"
+            },
+            "target_field_name": {
+              "type": "STRING"
+            }
+          }
+        },
+        "outputDefinitions": {
+          "parameters": {
+            "bigquery_output_table": {
+              "type": "STRING"
+            },
+            "gcp_resources": {
+              "type": "STRING"
+            },
+            "gcs_output_directory": {
+              "type": "STRING"
+            }
+          }
+        }
+      },
+      "comp-vertex-pipelines-notification-email": {
+        "executorLabel": "exec-vertex-pipelines-notification-email",
+        "inputDefinitions": {
+          "parameters": {
+            "pipeline_task_final_status": {
+              "type": "STRING"
+            },
+            "recipients": {
+              "type": "STRING"
+            }
+          }
+        }
+      }
+    },
+    "deploymentSpec": {
+      "executors": {
+        "exec-customcontainertrainingjob-run": {
+          "container": {
+            "args": [
+              "--executor_input",
+              "{{$}}",
+              "--resource_name_output_artifact_uri",
+              "{{$.outputs.artifacts['model'].uri}}",
+              "--init.display_name",
+              "{{$.inputs.parameters['display_name']}}",
+              "--init.container_uri",
+              "{{$.inputs.parameters['container_uri']}}",
+              "--init.project",
+              "{{$.inputs.parameters['project']}}",
+              "--init.location",
+              "{{$.inputs.parameters['location']}}",
+              "--method.dataset",
+              "{{$.inputs.artifacts['dataset'].metadata['resourceName']}}",
+              "--init.staging_bucket",
+              "{{$.inputs.parameters['staging_bucket']}}",
+              "--method.bigquery_destination",
+              "{{$.inputs.parameters['bigquery_destination']}}",
+              "--method.environment_variables",
+              "{{$.inputs.parameters['environment_variables']}}",
+              "--init.model_serving_container_image_uri",
+              "{{$.inputs.parameters['model_serving_container_image_uri']}}",
+              "--method.model_display_name",
+              "{{$.inputs.parameters['model_display_name']}}",
+              "--method.machine_type",
+              "{{$.inputs.parameters['machine_type']}}"
+            ],
+            "command": [
+              "python3",
+              "-m",
+              "google_cloud_pipeline_components.container.aiplatform.remote_runner",
+              "--cls_name",
+              "CustomContainerTrainingJob",
+              "--method_name",
+              "run"
+            ],
+            "image": "gcr.io/ml-pipeline/google-cloud-pipeline-components:1.0.26"
+          }
+        },
+        "exec-endpoint-create": {
+          "container": {
+            "args": [
+              "--type",
+              "CreateEndpoint",
+              "--payload",
+              "{\"display_name\": \"{{$.inputs.parameters['display_name']}}\", \"description\": \"{{$.inputs.parameters['description']}}\", \"labels\": {{$.inputs.parameters['labels']}}, \"encryption_spec\": {\"kms_key_name\":\"{{$.inputs.parameters['encryption_spec_key_name']}}\"}, \"network\": \"{{$.inputs.parameters['network']}}\"}",
+              "--project",
+              "{{$.inputs.parameters['project']}}",
+              "--location",
+              "{{$.inputs.parameters['location']}}",
+              "--gcp_resources",
+              "{{$.outputs.parameters['gcp_resources'].output_file}}",
+              "--executor_input",
+              "{{$}}"
+            ],
+            "command": [
+              "python3",
+              "-u",
+              "-m",
+              "google_cloud_pipeline_components.container.v1.endpoint.create_endpoint.launcher"
+            ],
+            "image": "gcr.io/ml-pipeline/google-cloud-pipeline-components:1.0.26"
+          }
+        },
+        "exec-feature-attribution": {
+          "container": {
+            "args": [
+              "--task",
+              "explanation",
+              "--setup_file",
+              "/setup.py",
+              "--project_id",
+              "{{$.inputs.parameters['project']}}",
+              "--location",
+              "{{$.inputs.parameters['location']}}",
+              "--batch_prediction_gcs_source",
+              "{{$.inputs.artifacts['predictions_gcs_source'].uri}}",
+              "--batch_prediction_format",
+              "{{$.inputs.parameters['predictions_format']}}",
+              "--root_dir",
+              "{{$.inputs.parameters['root_dir']}}/{{$.pipeline_job_uuid}}-{{$.pipeline_task_uuid}}",
+              "--dataflow_job_prefix",
+              "evaluation-feautre-attribution-{{$.pipeline_job_uuid}}-{{$.pipeline_task_uuid}}",
+              "--dataflow_service_account",
+              "{{$.inputs.parameters['dataflow_service_account']}}",
+              "--dataflow_disk_size",
+              "{{$.inputs.parameters['dataflow_disk_size']}}",
+              "--dataflow_machine_type",
+              "{{$.inputs.parameters['dataflow_machine_type']}}",
+              "--dataflow_workers_num",
+              "{{$.inputs.parameters['dataflow_workers_num']}}",
+              "--dataflow_max_workers_num",
+              "{{$.inputs.parameters['dataflow_max_workers_num']}}",
+              "--dataflow_subnetwork",
+              "{{$.inputs.parameters['dataflow_subnetwork']}}",
+              "--dataflow_use_public_ips",
+              "{{$.inputs.parameters['dataflow_use_public_ips']}}",
+              "--kms_key_name",
+              "{{$.inputs.parameters['encryption_spec_key_name']}}",
+              "--gcs_output_path",
+              "{{$.outputs.artifacts['feature_attributions'].uri}}",
+              "--gcp_resources",
+              "{{$.outputs.parameters['gcp_resources'].output_file}}",
+              "--executor_input",
+              "{{$}}"
+            ],
+            "command": [
+              "python",
+              "/main.py"
+            ],
+            "image": "gcr.io/ml-pipeline/model-evaluation:v0.7"
+          }
+        },
+        "exec-make-deployment-decision": {
+          "container": {
+            "args": [
+              "--executor_input",
+              "{{$}}",
+              "--function_to_execute",
+              "make_deployment_decision"
+            ],
+            "command": [
+              "sh",
+              "-c",
+              "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet     --no-warn-script-location 'kfp==1.8.14' && \"$0\" \"$@\"\n",
+              "sh",
+              "-ec",
+              "program_path=$(mktemp -d)\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+              "\nimport kfp\nfrom kfp.v2 import dsl\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef make_deployment_decision(project: str, staging_bucket: str, metric_name: str, threshold: float) -> NamedTuple(\"Outputs\", [(\"dep_decision\", str)]):\n    import json\n    import logging\n    import os\n    import re\n    from google.cloud import storage\n\n    # determine bucket name and prefix\n    staging_bucket_components = staging_bucket.split(\"gs://\")[-1].split(\"/\")\n    bucket_name = staging_bucket_components[0]\n    prefix = os.path.join(*staging_bucket_components[1:])\n\n    # determine evaluation metrics output file \"executor_output.json\" path\n    storage_client = storage.Client(project=project)\n    bucket = storage_client.get_bucket(bucket_name)\n    blobs = storage_client.list_blobs(bucket, prefix=prefix)\n    regex = re.compile(r'.*/model-evaluation-classification_.*/executor_output.json')\n    matching_metrics_blobs = list(filter(regex.match, [blob.name for blob in blobs]))\n    evaluation_metrics_blob_name = matching_metrics_blobs[0]\n\n    # read blob and create results dict\n    blob = bucket.blob(evaluation_metrics_blob_name)\n    metrics_data_dict = json.loads(blob.download_as_bytes(client=storage_client))\n    results_dict = metrics_data_dict[\"artifacts\"][\"evaluation_metrics\"][\"artifacts\"][0]['metadata']\n\n    # determine metric value\n    metric_value = results_dict[metric_name]\n\n    if metric_value > threshold:\n        dep_decision = \"true\"\n    else:\n        dep_decision = \"false\"\n\n    logging.info(\"deployment decision is %s\", dep_decision)\n\n    return (dep_decision,)\n\n"
+            ],
+            "image": "python:3.7"
+          }
+        },
+        "exec-model-batch-predict": {
+          "container": {
+            "args": [
+              "--type",
+              "BatchPredictionJob",
+              "--payload",
+              "{\"display_name\": \"{{$.inputs.parameters['job_display_name']}}\", \"model\": \"{{$.inputs.artifacts['model'].metadata['resourceName']}}\", \"input_config\": {\"instances_format\": \"{{$.inputs.parameters['instances_format']}}\", \"gcs_source\": {\"uris\":{{$.inputs.parameters['gcs_source_uris']}}}, \"bigquery_source\": {\"input_uri\": \"{{$.inputs.parameters['bigquery_source_input_uri']}}\"}}, \"model_parameters\": {{$.inputs.parameters['model_parameters']}}, \"output_config\": {\"predictions_format\": \"{{$.inputs.parameters['predictions_format']}}\", \"gcs_destination\": {\"output_uri_prefix\": \"{{$.inputs.parameters['gcs_destination_output_uri_prefix']}}\"}, \"bigquery_destination\": {\"output_uri\": \"{{$.inputs.parameters['bigquery_destination_output_uri']}}\"}}, \"dedicated_resources\": {\"machine_spec\": {\"machine_type\": \"{{$.inputs.parameters['machine_type']}}\", \"accelerator_type\": \"{{$.inputs.parameters['accelerator_type']}}\", \"accelerator_count\": {{$.inputs.parameters['accelerator_count']}}}, \"starting_replica_count\": {{$.inputs.parameters['starting_replica_count']}}, \"max_replica_count\": {{$.inputs.parameters['max_replica_count']}}}, \"manual_batch_tuning_parameters\": {\"batch_size\": {{$.inputs.parameters['manual_batch_tuning_parameters_batch_size']}}}, \"generate_explanation\": {{$.inputs.parameters['generate_explanation']}}, \"explanation_spec\": {\"parameters\": {{$.inputs.parameters['explanation_parameters']}}, \"metadata\": {{$.inputs.parameters['explanation_metadata']}}}, \"labels\": {{$.inputs.parameters['labels']}}, \"encryption_spec\": {\"kms_key_name\":\"{{$.inputs.parameters['encryption_spec_key_name']}}\"}}",
+              "--project",
+              "{{$.inputs.parameters['project']}}",
+              "--location",
+              "{{$.inputs.parameters['location']}}",
+              "--gcp_resources",
+              "{{$.outputs.parameters['gcp_resources'].output_file}}",
+              "--executor_input",
+              "{{$}}"
+            ],
+            "command": [
+              "python3",
+              "-u",
+              "-m",
+              "google_cloud_pipeline_components.container.v1.batch_prediction_job.launcher"
+            ],
+            "image": "gcr.io/ml-pipeline/google-cloud-pipeline-components:1.0.26"
+          }
+        },
+        "exec-model-deploy": {
+          "container": {
+            "args": [
+              "--type",
+              "DeployModel",
+              "--payload",
+              "{\"endpoint\": \"{{$.inputs.artifacts['endpoint'].metadata['resourceName']}}\", \"traffic_split\": {{$.inputs.parameters['traffic_split']}}, \"deployed_model\": {\"model\": \"{{$.inputs.artifacts['model'].metadata['resourceName']}}\", \"dedicated_resources\": {\"machine_spec\": {\"machine_type\": \"{{$.inputs.parameters['dedicated_resources_machine_type']}}\", \"accelerator_type\": \"{{$.inputs.parameters['dedicated_resources_accelerator_type']}}\", \"accelerator_count\": {{$.inputs.parameters['dedicated_resources_accelerator_count']}}}, \"min_replica_count\": {{$.inputs.parameters['dedicated_resources_min_replica_count']}}, \"max_replica_count\": {{$.inputs.parameters['dedicated_resources_max_replica_count']}}}, \"automatic_resources\": {\"min_replica_count\": {{$.inputs.parameters['automatic_resources_min_replica_count']}}, \"max_replica_count\": {{$.inputs.parameters['automatic_resources_max_replica_count']}}}, \"service_account\": \"{{$.inputs.parameters['service_account']}}\", \"disable_container_logging\": {{$.inputs.parameters['disable_container_logging']}}, \"enable_access_logging\": {{$.inputs.parameters['enable_access_logging']}}, \"explanation_spec\": {\"parameters\": {{$.inputs.parameters['explanation_parameters']}}, \"metadata\": {{$.inputs.parameters['explanation_metadata']}}}}}",
+              "--project",
+              "",
+              "--location",
+              "",
+              "--gcp_resources",
+              "{{$.outputs.parameters['gcp_resources'].output_file}}"
+            ],
+            "command": [
+              "python3",
+              "-u",
+              "-m",
+              "google_cloud_pipeline_components.container.v1.endpoint.deploy_model.launcher"
+            ],
+            "image": "gcr.io/ml-pipeline/google-cloud-pipeline-components:1.0.26"
+          }
+        },
+        "exec-model-evaluation-classification": {
+          "container": {
+            "args": [
+              "--setup_file",
+              "/setup.py",
+              "--json_mode",
+              "true",
+              "--project_id",
+              "{{$.inputs.parameters['project']}}",
+              "--location",
+              "{{$.inputs.parameters['location']}}",
+              "--problem_type",
+              "classification",
+              "--batch_prediction_format",
+              "{{$.inputs.parameters['predictions_format']}}",
+              "--batch_prediction_gcs_source",
+              "{{$.inputs.artifacts['predictions_gcs_source'].uri}}",
+              "--model_name",
+              "{{$.inputs.artifacts['model'].metadata['resourceName']}}",
+              "--ground_truth_format",
+              "{{$.inputs.parameters['ground_truth_format']}}",
+              "--ground_truth_gcs_source",
+              "{{$.inputs.parameters['ground_truth_gcs_source']}}",
+              "--ground_truth_bigquery_source",
+              "{{$.inputs.parameters['ground_truth_bigquery_source']}}",
+              "--root_dir",
+              "{{$.inputs.parameters['root_dir']}}/{{$.pipeline_job_uuid}}-{{$.pipeline_task_uuid}}",
+              "--classification_type",
+              "{{$.inputs.parameters['classification_type']}}",
+              "--class_labels",
+              "{{$.inputs.parameters['class_labels']}}",
+              "--target_field_name",
+              "instance.{{$.inputs.parameters['target_field_name']}}",
+              "--prediction_score_column",
+              "{{$.inputs.parameters['prediction_score_column']}}",
+              "--prediction_label_column",
+              "{{$.inputs.parameters['prediction_label_column']}}",
+              "--prediction_id_column",
+              "{{$.inputs.parameters['prediction_id_column']}}",
+              "--example_weight_column",
+              "{{$.inputs.parameters['example_weight_column']}}",
+              "--positive_classes",
+              "{{$.inputs.parameters['positive_classes']}}",
+              "--dataflow_job_prefix",
+              "evaluation-{{$.pipeline_job_uuid}}-{{$.pipeline_task_uuid}}",
+              "--dataflow_service_account",
+              "{{$.inputs.parameters['dataflow_service_account']}}",
+              "--dataflow_disk_size",
+              "{{$.inputs.parameters['dataflow_disk_size']}}",
+              "--dataflow_machine_type",
+              "{{$.inputs.parameters['dataflow_machine_type']}}",
+              "--dataflow_workers_num",
+              "{{$.inputs.parameters['dataflow_workers_num']}}",
+              "--dataflow_max_workers_num",
+              "{{$.inputs.parameters['dataflow_max_workers_num']}}",
+              "--dataflow_subnetwork",
+              "{{$.inputs.parameters['dataflow_subnetwork']}}",
+              "--dataflow_use_public_ips",
+              "{{$.inputs.parameters['dataflow_use_public_ips']}}",
+              "--kms_key_name",
+              "{{$.inputs.parameters['encryption_spec_key_name']}}",
+              "--output_metrics_gcs_path",
+              "{{$.outputs.artifacts['evaluation_metrics'].uri}}",
+              "--gcp_resources",
+              "{{$.outputs.parameters['gcp_resources'].output_file}}",
+              "--executor_input",
+              "{{$}}"
+            ],
+            "command": [
+              "python",
+              "/main.py"
+            ],
+            "image": "gcr.io/ml-pipeline/model-evaluation:v0.7"
+          }
+        },
+        "exec-model-evaluation-import": {
+          "container": {
+            "args": [
+              "--classification_metrics",
+              "{{$.inputs.artifacts['classification_metrics'].uri}}",
+              "--feature_attributions",
+              "{{$.inputs.artifacts['feature_attributions'].uri}}",
+              "--display_name",
+              "{{$.inputs.parameters['display_name']}}",
+              "--dataset_path",
+              "{{$.inputs.parameters['dataset_path']}}",
+              "--dataset_paths",
+              "{{$.inputs.parameters['dataset_paths']}}",
+              "--dataset_type",
+              "{{$.inputs.parameters['dataset_type']}}",
+              "--pipeline_job_id",
+              "{{$.pipeline_job_uuid}}",
+              "--pipeline_job_resource_name",
+              "{{$.pipeline_job_resource_name}}",
+              "--model_name",
+              "{{$.inputs.artifacts['model'].metadata['resourceName']}}",
+              "--gcp_resources",
+              "{{$.outputs.parameters['gcp_resources'].output_file}}"
+            ],
+            "command": [
+              "python3",
+              "-u",
+              "-m",
+              "google_cloud_pipeline_components.container.experimental.evaluation.import_model_evaluation"
+            ],
+            "image": "gcr.io/ml-pipeline/google-cloud-pipeline-components:1.0.26"
+          }
+        },
+        "exec-tabular-dataset-create": {
+          "container": {
+            "args": [
+              "--method.project",
+              "{{$.inputs.parameters['project']}}",
+              "--method.location",
+              "{{$.inputs.parameters['location']}}",
+              "--method.display_name",
+              "{{$.inputs.parameters['display_name']}}",
+              "--method.bq_source",
+              "{{$.inputs.parameters['bq_source']}}",
+              "--method.labels",
+              "{{$.inputs.parameters['labels']}}",
+              "--executor_input",
+              "{{$}}",
+              "--resource_name_output_artifact_uri",
+              "{{$.outputs.artifacts['dataset'].uri}}"
+            ],
+            "command": [
+              "python3",
+              "-m",
+              "google_cloud_pipeline_components.container.aiplatform.remote_runner",
+              "--cls_name",
+              "TabularDataset",
+              "--method_name",
+              "create"
+            ],
+            "image": "gcr.io/ml-pipeline/google-cloud-pipeline-components:1.0.26"
+          }
+        },
+        "exec-target-field-data-remover": {
+          "container": {
+            "args": [
+              "--task",
+              "data_splitter",
+              "--display_name",
+              "target-field-data-remover",
+              "--project_id",
+              "{{$.inputs.parameters['project']}}",
+              "--location",
+              "{{$.inputs.parameters['location']}}",
+              "--root_dir",
+              "{{$.inputs.parameters['root_dir']}}/{{$.pipeline_job_uuid}}-{{$.pipeline_task_uuid}}",
+              "--gcs_source_uris",
+              "{{$.inputs.parameters['gcs_source_uris']}}",
+              "--bigquery_source_uri",
+              "{{$.inputs.parameters['bigquery_source_uri']}}",
+              "--instances_format",
+              "{{$.inputs.parameters['instances_format']}}",
+              "--target_field_name",
+              "{{$.inputs.parameters['target_field_name']}}",
+              "--dataflow_service_account",
+              "{{$.inputs.parameters['dataflow_service_account']}}",
+              "--dataflow_subnetwork",
+              "{{$.inputs.parameters['dataflow_subnetwork']}}",
+              "--dataflow_use_public_ips",
+              "{{$.inputs.parameters['dataflow_use_public_ips']}}",
+              "--dataflow_job_prefix",
+              "evaluation-{{$.pipeline_job_uuid}}-{{$.pipeline_task_uuid}}",
+              "--kms_key_name",
+              "{{$.inputs.parameters['encryption_spec_key_name']}}",
+              "--gcs_directory_for_gcs_output_uris",
+              "{{$.outputs.parameters['gcs_output_directory'].output_file}}",
+              "--gcs_directory_for_bigquery_output_table_uri",
+              "{{$.outputs.parameters['bigquery_output_table'].output_file}}",
+              "--gcp_resources",
+              "{{$.outputs.parameters['gcp_resources'].output_file}}",
+              "--executor_input",
+              "{{$}}"
+            ],
+            "command": [
+              "python",
+              "/main.py"
+            ],
+            "image": "gcr.io/ml-pipeline/model-evaluation:v0.7"
+          }
+        },
+        "exec-vertex-pipelines-notification-email": {
+          "container": {
+            "args": [
+              "--type",
+              "VertexNotificationEmail",
+              "--payload",
+              ""
+            ],
+            "command": [
+              "python3",
+              "-u",
+              "-m",
+              "google_cloud_pipeline_components.container.experimental.vertex_notification_email.executor"
+            ],
+            "image": "gcr.io/ml-pipeline/google-cloud-pipeline-components:1.0.26"
+          }
+        }
+      }
+    },
+    "pipelineInfo": {
+      "name": "credit-card-fraud-detection-training"
+    },
+    "root": {
+      "dag": {
+        "outputs": {
+          "artifacts": {
+            "feature-attribution-feature_attributions": {
+              "artifactSelectors": [
+                {
+                  "outputArtifactKey": "feature-attribution-feature_attributions",
+                  "producerSubtask": "exit-handler-1"
+                }
+              ]
+            }
+          }
+        },
+        "tasks": {
+          "exit-handler-1": {
+            "componentRef": {
+              "name": "comp-exit-handler-1"
+            },
+            "inputs": {
+              "parameters": {
+                "pipelineparam--batch_predict_display_name": {
+                  "componentInputParameter": "batch_predict_display_name"
+                },
+                "pipelineparam--batch_predict_machine_type": {
+                  "componentInputParameter": "batch_predict_machine_type"
+                },
+                "pipelineparam--bq_dest": {
+                  "componentInputParameter": "bq_dest"
+                },
+                "pipelineparam--bq_source": {
+                  "componentInputParameter": "bq_source"
+                },
+                "pipelineparam--class_names": {
+                  "componentInputParameter": "class_names"
+                },
+                "pipelineparam--container_uri": {
+                  "componentInputParameter": "container_uri"
+                },
+                "pipelineparam--dataset_display_name": {
+                  "componentInputParameter": "dataset_display_name"
+                },
+                "pipelineparam--dedicated_resources_machine_type": {
+                  "componentInputParameter": "dedicated_resources_machine_type"
+                },
+                "pipelineparam--dedicated_resources_max_replica_count": {
+                  "componentInputParameter": "dedicated_resources_max_replica_count"
+                },
+                "pipelineparam--dedicated_resources_min_replica_count": {
+                  "componentInputParameter": "dedicated_resources_min_replica_count"
+                },
+                "pipelineparam--deployment_metric": {
+                  "componentInputParameter": "deployment_metric"
+                },
+                "pipelineparam--deployment_threshold": {
+                  "componentInputParameter": "deployment_threshold"
+                },
+                "pipelineparam--endpoint_display_name": {
+                  "componentInputParameter": "endpoint_display_name"
+                },
+                "pipelineparam--gcp_region": {
+                  "componentInputParameter": "gcp_region"
+                },
+                "pipelineparam--model_display_name": {
+                  "componentInputParameter": "model_display_name"
+                },
+                "pipelineparam--model_serving_container_image_uri": {
+                  "componentInputParameter": "model_serving_container_image_uri"
+                },
+                "pipelineparam--project": {
+                  "componentInputParameter": "project"
+                },
+                "pipelineparam--staging_bucket": {
+                  "componentInputParameter": "staging_bucket"
+                },
+                "pipelineparam--target_column_name": {
+                  "componentInputParameter": "target_column_name"
+                },
+                "pipelineparam--training_display_name": {
+                  "componentInputParameter": "training_display_name"
+                },
+                "pipelineparam--training_machine_type": {
+                  "componentInputParameter": "training_machine_type"
+                }
+              }
+            },
+            "taskInfo": {
+              "name": "exit-handler-1"
+            }
+          },
+          "vertex-pipelines-notification-email": {
+            "componentRef": {
+              "name": "comp-vertex-pipelines-notification-email"
+            },
+            "dependentTasks": [
+              "exit-handler-1"
+            ],
+            "inputs": {
+              "parameters": {
+                "pipeline_task_final_status": {
+                  "taskFinalStatus": {
+                    "producerTask": "exit-handler-1"
+                  }
+                },
+                "recipients": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "[\"ayoad@google.com\"]"
+                    }
+                  }
+                }
+              }
+            },
+            "taskInfo": {
+              "name": "vertex-pipelines-notification-email"
+            },
+            "triggerPolicy": {
+              "strategy": "ALL_UPSTREAM_TASKS_COMPLETED"
+            }
+          }
+        }
+      },
+      "inputDefinitions": {
+        "parameters": {
+          "aiplatform_host": {
+            "type": "STRING"
+          },
+          "batch_predict_display_name": {
+            "type": "STRING"
+          },
+          "batch_predict_machine_type": {
+            "type": "STRING"
+          },
+          "bq_dest": {
+            "type": "STRING"
+          },
+          "bq_source": {
+            "type": "STRING"
+          },
+          "class_names": {
+            "type": "STRING"
+          },
+          "container_uri": {
+            "type": "STRING"
+          },
+          "dataset_display_name": {
+            "type": "STRING"
+          },
+          "dedicated_resources_machine_type": {
+            "type": "STRING"
+          },
+          "dedicated_resources_max_replica_count": {
+            "type": "INT"
+          },
+          "dedicated_resources_min_replica_count": {
+            "type": "INT"
+          },
+          "deployment_metric": {
+            "type": "STRING"
+          },
+          "deployment_threshold": {
+            "type": "DOUBLE"
+          },
+          "endpoint_display_name": {
+            "type": "STRING"
+          },
+          "gcp_region": {
+            "type": "STRING"
+          },
+          "key_columns": {
+            "type": "STRING"
+          },
+          "model_display_name": {
+            "type": "STRING"
+          },
+          "model_serving_container_image_uri": {
+            "type": "STRING"
+          },
+          "project": {
+            "type": "STRING"
+          },
+          "staging_bucket": {
+            "type": "STRING"
+          },
+          "target_column_name": {
+            "type": "STRING"
+          },
+          "training_display_name": {
+            "type": "STRING"
+          },
+          "training_machine_type": {
+            "type": "STRING"
+          }
+        }
+      },
+      "outputDefinitions": {
+        "artifacts": {
+          "feature-attribution-feature_attributions": {
+            "artifactType": {
+              "schemaTitle": "system.Metrics",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      }
+    },
+    "schemaVersion": "2.0.0",
+    "sdkVersion": "kfp-1.8.14"
+  },
+  "runtimeConfig": {
+    "gcsOutputDirectory": "gs://demo-kfp-pipelines/pipeline-root",
+    "parameters": {
+      "aiplatform_host": {
+        "stringValue": "us-central1-aiplatform.googleapis.com"
+      },
+      "batch_predict_display_name": {
+        "stringValue": "credit-card-fraud-detection-tf-batch-predict"
+      },
+      "batch_predict_machine_type": {
+        "stringValue": "n1-standard-4"
+      },
+      "bq_dest": {
+        "stringValue": "bq://aadev-end-to-end-pipeline-demo"
+      },
+      "bq_source": {
+        "stringValue": "bq://aadev-end-to-end-pipeline-demo.gcs_lake.credit_card_fraud_detection"
+      },
+      "class_names": {
+        "stringValue": "[\"0\", \"1\"]"
+      },
+      "container_uri": {
+        "stringValue": "us-central1-docker.pkg.dev/aadev-end-to-end-pipeline-demo/vertex-ai-pipeline-custom-training-jobs/credit_card_fraud_detection_tf:latest"
+      },
+      "dataset_display_name": {
+        "stringValue": "credit_card_fraud_detection"
+      },
+      "dedicated_resources_machine_type": {
+        "stringValue": "n1-standard-4"
+      },
+      "dedicated_resources_max_replica_count": {
+        "intValue": "1"
+      },
+      "dedicated_resources_min_replica_count": {
+        "intValue": "1"
+      },
+      "deployment_metric": {
+        "stringValue": "auPrc"
+      },
+      "deployment_threshold": {
+        "doubleValue": 0.95
+      },
+      "endpoint_display_name": {
+        "stringValue": "credit-card-fraud-detection-tf"
+      },
+      "gcp_region": {
+        "stringValue": "us-central1"
+      },
+      "key_columns": {
+        "stringValue": "[\"key\"]"
+      },
+      "model_display_name": {
+        "stringValue": "credit-card-fraud-detection-tf"
+      },
+      "model_serving_container_image_uri": {
+        "stringValue": "us-docker.pkg.dev/vertex-ai/prediction/tf2-cpu.2-9:latest"
+      },
+      "project": {
+        "stringValue": "aadev-end-to-end-pipeline-demo"
+      },
+      "staging_bucket": {
+        "stringValue": "gs://demo-kfp-pipelines/pipeline-root/1668969721"
+      },
+      "target_column_name": {
+        "stringValue": "Class"
+      },
+      "training_display_name": {
+        "stringValue": "credit-card-fraud-detection-tf-train"
+      },
+      "training_machine_type": {
+        "stringValue": "n1-standard-4"
+      }
+    }
+  }
+}
