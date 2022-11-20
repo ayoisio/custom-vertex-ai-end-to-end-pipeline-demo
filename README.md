@@ -7,7 +7,7 @@ The dataset (available for download [here](https://www.kaggle.com/datasets/mlg-u
 
 ## Workflow
 1. Upload .csv or .parquet file of dataset to GCS
-2. [Create BigLake table](https://cloud.google.com/bigquery/docs/query-cloud-storage-using-biglake) that reads from file 
+2. [Create] (https://cloud.google.com/bigquery/docs/query-cloud-storage-using-biglake) BigLake table that reads from file 
 2. [Build](https://cloud.google.com/sdk/gcloud/reference/builds/submit) model in custom container and [submit](https://cloud.google.com/artifact-registry/docs/docker/pushing-and-pulling) to Artifact Registry repo.
 3. Build Vertex AI Pipeline
     1. Create dataset ([TabularDatasetCreateOp](https://google-cloud-pipeline-components.readthedocs.io/page/google_cloud_pipeline_components.v1.dataset.html#google_cloud_pipeline_components.v1.dataset.TabularDatasetCreateOp))
