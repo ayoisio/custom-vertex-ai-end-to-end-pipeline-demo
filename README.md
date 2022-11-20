@@ -16,9 +16,9 @@ The dataset (available for download [here](https://www.kaggle.com/datasets/mlg-u
     4. Run batch prediction ([ModelBatchPredictionOp](https://google-cloud-pipeline-components.readthedocs.io/page/google_cloud_pipeline_components.v1.batch_predict_job.html#google_cloud_pipeline_components.v1.batch_predict_job.ModelBatchPredictOp))
     5. Perform classification evaluation ([ModelEvaluationClassificationOp](https://google-cloud-pipeline-components.readthedocs.io/en/google-cloud-pipeline-components-1.0.27/google_cloud_pipeline_components.experimental.evaluation.html#google_cloud_pipeline_components.experimental.evaluation.ModelEvaluationClassificationOp)) Perform feature attribution ([ModelEvaluationFeatureAttributionOp](https://google-cloud-pipeline-components.readthedocs.io/en/google-cloud-pipeline-components-1.0.27/google_cloud_pipeline_components.experimental.evaluation.html#google_cloud_pipeline_components.experimental.evaluation.ModelEvaluationFeatureAttributionOp))
     6. Import model evaluation task ([ModelImportEvaluationOp](https://google-cloud-pipeline-components.readthedocs.io/en/google-cloud-pipeline-components-1.0.27/google_cloud_pipeline_components.experimental.evaluation.html#google_cloud_pipeline_components.experimental.evaluation.ModelImportEvaluationOp))
-    7. Custom deployment decision task (auPrc > 95%)
-    8. Create model endpoint task ([EndpointCreateOp](https://google-cloud-pipeline-components.readthedocs.io/page/google_cloud_pipeline_components.v1.endpoint.html#google_cloud_pipeline_components.v1.endpoint.EndpointCreateOp))
-    9. Deploy model task ([ModelDeployOp](https://google-cloud-pipeline-components.readthedocs.io/page/google_cloud_pipeline_components.v1.endpoint.html#google_cloud_pipeline_components.v1.endpoint.ModelDeployOp))
+    7. Make deployment decision (auPrc > 95%)
+    8. Create model endpoint ([EndpointCreateOp](https://google-cloud-pipeline-components.readthedocs.io/page/google_cloud_pipeline_components.v1.endpoint.html#google_cloud_pipeline_components.v1.endpoint.EndpointCreateOp))
+    9. Deploy model ([ModelDeployOp](https://google-cloud-pipeline-components.readthedocs.io/page/google_cloud_pipeline_components.v1.endpoint.html#google_cloud_pipeline_components.v1.endpoint.ModelDeployOp))
     10. Send email notification ([VertexNotificationEmailOp](https://cloud.google.com/vertex-ai/docs/pipelines/email-notification-component))
   
   
