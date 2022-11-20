@@ -1,2 +1,3 @@
-# custom-vertex-ai-end-to-end-pipeline-demo
-Vertex AI end-to-end pipeline demo with custom Tensorflow model
+# Vertex AI Pipeline - Credit Card Fraud Detection with Tensorflow
+
+![Successful pipeline execution graph](/img/successful_pipeline_graph.png)
