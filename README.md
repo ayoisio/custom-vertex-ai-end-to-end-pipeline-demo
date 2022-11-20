@@ -1,4 +1,4 @@
-# Vertex AI Pipelines with Custom Tensorflow Model
+# Vertex AI Pipelines - Custom Model Deployment
 
 ![Successful pipeline execution graph](/img/successful_pipeline_graph.png)
 
