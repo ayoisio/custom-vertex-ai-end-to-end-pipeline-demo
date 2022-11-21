@@ -1,6 +1,6 @@
 # Vertex AI Pipelines - Custom Model Deployment
 
-![Successful pipeline execution graph](/img/successful_pipeline_graph.png)
+![Successful pipeline execution graph](/imgs/successful_pipeline_graph.png)
 
 ## Dataset
 The dataset (available for download [here](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud)) contains transactions made by credit cards in September 2013 by European cardholders. This dataset presents transactions that occurred in two days, where we have 492 frauds out of 284,807 transactions. The dataset is highly __imbalanced__, the positive class (frauds) account for 0.172% of all transactions.
